@@ -11,9 +11,19 @@ class LiveSearch extends Component
 
     public $contacts = [];
 
-    public function updatedName($value)
+    public function searchByName()
     {
-        $this->contacts = PhoneBook::searchByName($value);
+        if (!empty($this->name)) {
+            sleep(3);
+
+            $results = $this->contacts = PhoneBook::searchByName($this->name);
+
+            if (empty($results)) {
+                session()->flash('message', 'No contact matching "'. $this->name . '".');
+            }
+
+            $this->contacts = $results;
+        }
     }
 
     public function render()
